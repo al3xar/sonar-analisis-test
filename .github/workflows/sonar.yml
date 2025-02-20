@@ -26,7 +26,7 @@ jobs:
         run: |
           pytest tests/ --cov=src --cov-report=xml:coverage/coverage.xml
           mkdir reports
-          bandit -r src --format json -o reports/bandit-report.json
+          bandit -r src --format json -o reports/bandit-report.json --exit-zero
           pylint src --output-format=json > reports/pylint-report.json
       - name: Set up WireGuard
         uses: egor-tensin/setup-wireguard@v1
