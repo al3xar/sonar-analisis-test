@@ -25,6 +25,7 @@ jobs:
       - name: Run tests with coverage
         run: |
           pytest tests/ --cov=src --cov-report=xml:coverage/coverage.xml
+          mkdir reports
           bandit -r src --format json -o reports/bandit-report.json
           pylint src --output-format=json > reports/pylint-report.json
       - name: Set up WireGuard
