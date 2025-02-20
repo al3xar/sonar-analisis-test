@@ -99,3 +99,28 @@ class TestVulnerableCode:
         result = vulnerable_code.handle_data(None)
         assert result is None
 
+    def test_unsafe_cypher_valid_input(self, vulnerable_code):
+        """
+        Prueba el cifrado con un input válido de 16 bytes
+        """
+        test_data = b'1234567890ABCDEF'  # 16 bytes exactos
+        result = vulnerable_code.unsafe_cypher(test_data)
+        assert isinstance(result, bytes)
+        assert len(result) == 16
+
+    def test_unsafe_cypher_same_input_same_output(self, vulnerable_code):
+        """
+        Prueba que el mismo input produce el mismo output debido a la falta de IV
+        """
+        test_data = b'1234567890ABCDEF'
+        result1 = vulnerable_code.unsafe_cypher(test_data)
+        result2 = vulnerable_code.unsafe_cypher(test_data)
+        assert result1 == result2
+
+    def test_unsafe_cypher_invalid_length(self, vulnerable_code):
+        """
+        Prueba que se lanza ValueError con input de longitud inválida
+        """
+        test_data = b'123'  # Menos de 16 bytes
+        with pytest.raises(ValueError):
+            vulnerable_code.unsafe_cypher(test_data)
