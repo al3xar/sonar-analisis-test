@@ -1,0 +1,61 @@
+# Python virtual environments
+venv/
+env/
+.env/
+.venv/
+ENV/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+.tox/
+.nox/
+
+# Coverage reports
+htmlcov/
+coverage.xml
+coverage.json
+.coverage.*
+
+# IDE - VSCode
+.vscode/
+*.code-workspace
+.history/
+
+# IDE - PyCharm
+.idea/
+*.iml
+*.iws
+.idea_modules/
+
+# Build and distribution
+build/
+dist/
+*.egg-info/
+*.egg
+eggs/
+develop-eggs/
+.eggs/
+wheels/
+*.whl
+
+# Temporary files
+*.log
+*.tmp
+*.temp
+*~
+.DS_Store
+
+# Testing
+.pytest_cache/
+.hypothesis/
+.benchmarks/
+
+# Local development settings
+*.env
+.env.local
+settings.local.py
+

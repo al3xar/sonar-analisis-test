@@ -10,34 +10,40 @@ jobs:
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
-    
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
-      
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      
       - name: Run tests with coverage
         run: |
           pytest tests/ --cov=src --cov-report=xml:coverage.xml
-      
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Set up WireGuard
+        uses: egor-tensin/setup-wireguard@v1
         with:
-          args: >
-            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
-            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
-            -Dsonar.python.coverage.reportPaths=coverage.xml
+          endpoint: '${{ secrets.WIREGUARD_ENDPOINT }}'
+          endpoint_public_key: '${{ secrets.WIREGUARD_ENDPOINT_PUBLIC }}'
+          ips: '${{ secrets.WIREGUARD_IPS }}'
+          allowed_ips: '${{ secrets.WIREGUARD_ALLOWED_IPS }}'
+          private_key: '${{ secrets.WIREGUARD_PRIVATE }}'
+          preshared_key: '${{ secrets.WIREGUARD_PRESHARED }}'
+      - name: Configure hostname resolution
+        run: |
+          echo "10.192.1.254 sonar.al3xar.internal" | sudo tee -a /etc/hosts
+          cat /etc/hosts | grep sonar.al3xar.internal
+      - name: Verify Sonar and External conection
+        run: |
+          curl -I http://sonar.al3xar.internal
+
+      - uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
