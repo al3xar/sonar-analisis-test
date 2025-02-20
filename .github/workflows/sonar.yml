@@ -41,6 +41,9 @@ jobs:
         run: |
           echo "10.192.1.254 sonar.al3xar.internal" | sudo tee -a /etc/hosts
           cat /etc/hosts | grep sonar.al3xar.internal
+      - name: Verify Sonar and External conection
+        run: |
+          curl -I http://sonar.al3xar.internal
       - uses: SonarSource/sonarqube-scan-action@v4
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
