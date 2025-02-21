@@ -27,6 +27,7 @@ class VulnerableCode:
         cipher = AES.new(key, AES.MODE_ECB)
         return cipher.encrypt(data)
 
+
     def print_tokens(self):
         """Método que imprime tokens de autenticación.
 
@@ -67,7 +68,7 @@ class VulnerableCode:
         Usar variables de entorno o gestión segura de secretos.
         """
         connection = sqlite3.connect(
-            "../one/two/mydb/database.db",  #  Hardcoded database path
+            "../one/two/mydb/database.db",
         )
         return connection
 
@@ -93,7 +94,6 @@ class VulnerableCode:
         eval() ejecuta código Python arbitrario.
         Nunca usar con input no confiable.
         """
-        #   - Uso inseguro de eval()
         return eval(user_input)
 
     def unused_vars_method(self, value):
@@ -127,7 +127,6 @@ class VulnerableCode:
 
     def duplicate_process2(self, data):
         """Segundo método con código duplicado.
-        
         Duplica la lógica de duplicate_process1().
         Debería refactorizarse en un único método.
         """
@@ -139,10 +138,14 @@ class VulnerableCode:
             elif isinstance(item, str):
                 result.append(item.upper())
         return result
+    
+    def divide(a, b):
+        return a / b
+
+
 
     def handle_data(self, data):
         """Método que captura Exception general.
-        
         Code Smell: Catch genérico
         Severidad: Mayor
         Capturar Exception oculta errores específicos
@@ -152,7 +155,7 @@ class VulnerableCode:
             result = data['value'] + 10
             processed = result / len(data)
             return processed * 2
-        except Exception as e:  #   - Catch genérico intencional
+        except Exception as e:
             print(f"Error procesando datos: {e}")
             return None
 
