@@ -36,6 +36,7 @@ class VulnerableCode:
         No se deben imprimir tokens de autenticación en logs.
         """
         token = "sqp_d7fa3292e2fe4aa6890212b0ad023a157533d7fe"
+
         print(f"Token: {token}")
 
     def unsafe_file_write(self, data):
